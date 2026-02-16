@@ -9,6 +9,9 @@ import Login from "./Pages/Login";
 import { ToastContainer } from "react-toastify";
 import { AuthGuard } from "./auth/AuthGuard";
 import Dashboard from "./Component/Dashboard";
+import CreatePost from "./pages/CreatePost";
+import PostDetails from "./pages/PostDetails";
+import Analytics from "./pages/Analytics";
 
 const DefultRouter = () => {
   const data = JSON.parse(localStorage.getItem("blog_rdata"));
@@ -48,6 +51,39 @@ function App() {
         </AuthGuard>
       ),
     },
+    {
+      path: "/Create-Post",
+      element: (
+        <AuthGuard required={true}>
+          <CreatePost/>
+        </AuthGuard>
+      ),
+    },
+    {
+  path: "/edit-post/:id",  
+  element: (
+    <AuthGuard required={true}>
+      <CreatePost />
+    </AuthGuard>
+  ),
+},
+    {
+  path: "/PostDetails/:id", 
+  element: (
+    <AuthGuard required={true}>
+      <PostDetails />
+    </AuthGuard>
+  ),
+},
+ {
+  path: "/charts", 
+  element: (
+    <AuthGuard required={true}>
+      <Analytics />
+    </AuthGuard>
+  ),
+},
+
   ]);
 
   return (

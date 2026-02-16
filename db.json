@@ -1,13 +1,12 @@
 {
-  "posts":[
+  "posts": [
     {
-      "id": "4d4b",
-      "title": "title 1",
-      "description": "lorem ipsum is simply dummy ",
-      "author":"test user",
-      "image":"https://yandex.com/images/search?pos=11&from=tabbar&img_url=https%3A%2F%2Faiandblockchain.com%2Fwp-content%2Fuploads%2F2022%2F04%2FAI-in-Action.png&text=ai+realted+blogpost+image&rpt=simage&lr=10555",
-      "createdAt":"2026-02-06T11:04:10.992z"
+      "title": "My First Post",
+      "description": "Hello world",
+      "auther": "Nirali",
+      "imageurl": "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      "imageType": "url",
+      "id": "cb0f"
     }
   ]
 }
-  

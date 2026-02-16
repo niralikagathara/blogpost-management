@@ -1,6 +1,7 @@
 import React from "react";
 import { FaBlog, FaHome, FaPlusSquare, FaSignOutAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { MdAnalytics } from "react-icons/md";
 import "./Navbar.css"
 
 export default function Navbar() {
@@ -20,6 +21,12 @@ export default function Navbar() {
           <NavLink to="/create-post" className="nav-item">
             <FaPlusSquare className="nav-icon" />
             Create Post
+          </NavLink>
+
+
+          <NavLink to="/charts" className="nav-item">
+            <MdAnalytics className="nav-icon" />
+            Analystics
           </NavLink>
         </div>
         <div className="navbar-actions">
