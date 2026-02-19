@@ -13,17 +13,19 @@ import "./CreatePost.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 function CreatePost() {
-  const autherName = JSON.parse(localStorage.getItem("blog_rdata"));
+  const author = JSON.parse(localStorage.getItem("blog_rdata"));
 
   const navigate = useNavigate();
 
   const [data, setData] = useState({
     title: "",
     description: "",
-    auther: autherName?.name || "",
+    author: author?.name || "",
     imageurl: "",
     imageType: "url",
   });
+
+  
 
   const fileInputRef = useRef(null);
 
@@ -31,28 +33,25 @@ function CreatePost() {
 
   const [error, setError] = useState({});
 
- const { id } = useParams();
- const isEditMode = !!id;
+  const { id } = useParams();
+  const isEditMode = !!id;
   useEffect(() => {
-  if (isEditMode) {
-    fetch(`http://localhost:3000/posts/${id}`)
-      .then((res) => res.json())
-      .then((post) => {
-        setData({
-          title: post.title,
-          description: post.description,
-          auther: post.auther,
-          imageurl: post.imageurl,
-          imageType: post.imageurl?.startsWith("http")
-            ? "url"
-            : "file",
+    if (isEditMode) {
+      fetch(`http://localhost:3000/posts/${id}`)
+        .then((res) => res.json())
+        .then((post) => {
+          setData({
+            title: post.title,
+            description: post.description,
+            author: post.author,
+            imageurl: post.imageurl,
+            imageType: post.imageurl?.startsWith("http") ? "url" : "file",
+          });
+
+          setImagePreview(post.imageurl);
         });
-
-        setImagePreview(post.imageurl);
-      });
-  }
-}, [id]);
-
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     setData({
@@ -66,33 +65,34 @@ function CreatePost() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validate()) return;
+    e.preventDefault();
 
-  const url = isEditMode 
-    ? `http://localhost:3000/posts/${id}` 
-    : "http://localhost:3000/posts";
+    if (!validate()) return;
 
-  const method = isEditMode ? "PUT" : "POST";
+    const url = isEditMode
+      ? `http://localhost:3000/posts/${id}`
+      : "http://localhost:3000/posts";
 
-  const postData = { ...data };
+    const method = isEditMode ? "PUT" : "POST";
 
-  if (!isEditMode) {
-    delete postData.createdAt;
-  }
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          createdAt: isEditMode ? data.createdAt : new Date().toISOString,
+        }),
+      });
 
-  try {
-    await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(postData),
-    });
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    navigate("/dashboard");
-  } catch (error) {
-    console.log(error);
-  }
-};
   const handlefileTypeChange = (type) => {
     setData((prev) => ({ ...prev, imageType: type }));
     if (type === "url") {
@@ -133,8 +133,8 @@ function CreatePost() {
     if (!data.title.trim()) {
       newError.title = "Title Is Required.";
     }
-    if (!data.auther.trim()) {
-      newError.auther = "Auther is  Required.";
+    if (!data.author.trim()) {
+      newError.author = "Auther is  Required.";
     }
     if (!data.description.trim()) {
       newError.description = "Description Is Required.";
@@ -172,19 +172,19 @@ function CreatePost() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="auther">Auther Name</label>
+              <label htmlFor="author">Author Name</label>
               <div className="input-wrapper">
                 <FaUser className="input-icon" />
                 <input
                   type="text"
-                  name="auther"
-                  id="auther"
-                  value={data.auther}
+                  name="author"
+                  id="author"
+                  value={data.author}
                   className="form-control"
                   onChange={handleChange}
                   placeholder="Your Name"
                 />
-                {error.auther && <span className="error">{error.auther}</span>}
+                {error.author && <span className="error">{error.author}</span>}
               </div>
             </div>
 
@@ -281,7 +281,20 @@ function CreatePost() {
                 Publish Post
               </button>
 
-              <button type="button" className="cancel-btn">
+             <button
+              className="cancel-btn"
+              type="button"
+              style={{ flex: 1 }}
+              onClick={() =>
+                setData({
+                   title: "",
+                   description: "",
+                    author: author?.name || "",
+                   imageurl: "",
+                   imageType: "url",
+                })
+              }
+            >
                 Clear Form
               </button>
             </div>

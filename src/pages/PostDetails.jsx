@@ -1,13 +1,14 @@
 import{FaArrowLeft,FaCalendarAlt,FaClock}from 'react-icons/fa';
 import Navbar from  '../Component/Navbar';
 import'./PostDetails.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MdDescription } from 'react-icons/md';
 
 
 const PostDetails = () => {
  const {id}= useParams();
+ const navigate=useNavigate();
  const [tasks,setTasks]=useState({
     title:"",
     Description:"",
@@ -27,7 +28,7 @@ const PostDetails = () => {
     <div className="post-details-page">
         <Navbar/>
         <main className="post-details-container">
-            <button className="back-btn">
+            <button className="back-btn" onClick={()=> navigate("/")}>
                 <FaArrowLeft/> Back to Feed
             </button>
 

@@ -1,19 +1,19 @@
+import React from "react";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 import {
   createBrowserRouter,
-  Navigate,
   RouterProvider,
+  Navigate,
 } from "react-router-dom";
-
-import Register from "./Pages/Register";
-import Login from "./Pages/Login";
-import { ToastContainer } from "react-toastify";
-import { AuthGuard } from "./auth/AuthGuard";
 import Dashboard from "./Component/Dashboard";
+import { ToastContainer } from "react-toastify";
+import AuthGuard from "./auth/AuthGuard";
 import CreatePost from "./pages/CreatePost";
 import PostDetails from "./pages/PostDetails";
 import Analytics from "./pages/Analytics";
 
-const DefultRouter = () => {
+const DefaultRouter = () => {
   const data = JSON.parse(localStorage.getItem("blog_rdata"));
   if (data) {
     return <Navigate to="/dashboard" replace />;
@@ -25,7 +25,7 @@ function App() {
   const route = createBrowserRouter([
     {
       path: "/",
-      element: <DefultRouter />,
+      element: <DefaultRouter />,
     },
     {
       path: "/register",
@@ -52,38 +52,37 @@ function App() {
       ),
     },
     {
-      path: "/Create-Post",
+      path: "/create-post",
       element: (
         <AuthGuard required={true}>
-          <CreatePost/>
+          <CreatePost />
         </AuthGuard>
       ),
     },
     {
-  path: "/edit-post/:id",  
-  element: (
-    <AuthGuard required={true}>
-      <CreatePost />
-    </AuthGuard>
-  ),
-},
+      path: "/edit-post/:id",
+      element: (
+        <AuthGuard required={true}>
+          <CreatePost />
+        </AuthGuard>
+      ),
+    },
     {
-  path: "/PostDetails/:id", 
-  element: (
-    <AuthGuard required={true}>
-      <PostDetails />
-    </AuthGuard>
-  ),
-},
- {
-  path: "/charts", 
-  element: (
-    <AuthGuard required={true}>
-      <Analytics />
-    </AuthGuard>
-  ),
-},
-
+      path: "/post-details/:id",
+      element: (
+        <AuthGuard required={true}>
+          <PostDetails />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: "/charts",
+      element: (
+        <AuthGuard required={true}>
+          <Analytics />
+        </AuthGuard>
+      ),
+    },
   ]);
 
   return (
@@ -98,9 +97,9 @@ function App() {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHoverr
+        pauseOnHover
         theme="light"
-      ></ToastContainer>
+      />
     </>
   );
 }

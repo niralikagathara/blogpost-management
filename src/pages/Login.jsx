@@ -35,9 +35,10 @@ function Login() {
         data.email === logData.email &&
         data.password === logData.password
       ) {
-        localStorage.setItem("blog_ldata", JSON.stringify(logData));
+        localStorage.setItem("blog_lData", JSON.stringify(logData));
+         navigate("/dashboard");
         toast.success("Done");
-        navigate("/dashboard");
+       
       } else {
         toast.error("Somthing Went Wrong");
       }
@@ -79,6 +80,7 @@ function Login() {
                type="email"
                name="email"
                id="email"
+               value={logData.email}
                className="form-input"
                placeholder="Enter Your Email Address"
                onChange={handleChange}
@@ -97,6 +99,7 @@ function Login() {
                  type={showPassword ? "text" : "password"}
                  name="password"
                  id="password"
+                 value={logData.password}
                  className="form-input password-input"
                  placeholder="******"
                  onChange={handleChange}
