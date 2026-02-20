@@ -161,8 +161,7 @@ const Analytics = () => {
                       <td>{task.id}</td>
                       <td>{task.title}</td>
                       <td>{task.author}</td>
-                      <td>{new Date(task.createdAt || Date.now(),).toLocaleDateString()}</td>
-
+                      <td>{new Date(task.createdAt||Date.now(),).toLocaleDateString()}</td>
                       <td className="action-buttons">
                         <button
                           className="edit-btn"

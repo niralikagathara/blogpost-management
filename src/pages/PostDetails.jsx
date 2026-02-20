@@ -28,7 +28,7 @@ const PostDetails = () => {
     <div className="post-details-page">
         <Navbar/>
         <main className="post-details-container">
-            <button className="back-btn" onClick={()=> navigate("/")}>
+            <button className="back-btn" onClick={()=>navigate("/")}>
                 <FaArrowLeft/> Back to Feed
             </button>
 

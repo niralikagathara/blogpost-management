@@ -1,14 +1,17 @@
   import React, { useEffect, useState } from "react";
-  import { FaPlus } from "react-icons/fa";
+  import { FaPlus, FaRegStar, FaStar } from "react-icons/fa";
   import { MdDelete, MdEdit } from "react-icons/md";
   import "./Dashboard.css";
   import Navbar from "../Component/Navbar";
   import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
   const Dashboard = () => {
     const [tasks, setTasks] = useState([]);
-
     const navigate = useNavigate();
+    const [favorites,setFavorites]= useState([]);
 
+   
     const fetchData = async () => {
       try {
         const fData = await fetch("http://localhost:3000/posts");
@@ -21,6 +24,9 @@
 
     useEffect(() => {
       fetchData();
+
+      const savedFavorites=JSON.parse(localStorage.getItem("favorites"))||[];
+      setFavorites(savedFavorites);
     }, []);
 
     const handleDelete = async (id) => {
@@ -43,6 +49,22 @@
     const handleReadMore=(id)=>{
       navigate(`/post-details/${id}`)
     }
+   
+    const toggleFavorite=(taskId)=>{
+      let newFavorites;
+      if(favorites.includes(taskId)){
+        newFavorites = favorites.filter(id=>id!==taskId);
+        toast.info("Removed from favorites");
+      }else{
+        newFavorites = [...favorites,taskId];
+        toast.success("Added to favorites!");
+      }
+      setFavorites(newFavorites);
+      localStorage.setItem('favorites',
+          JSON.stringify(newFavorites)
+      );
+    }
+
 
 
 
@@ -101,7 +123,11 @@
                       alt="Post"
                       className="post-card-image"
                     />
-
+                    <button className={`favorite-btn ${favorites.includes(task.id)?'active':''}`}
+                    onClick={(e)=>toggleFavorite(task.id)}
+                    >
+                      <FaRegStar size={22} color="#ffffff"/>
+                    </button>
                     <div className="post-actions">
                       <button className="action-btn edit-btn" title="Edit Post">
                         <MdEdit size={22} color="#ffffff"  onClick={() => handleEdit(task.id)}/>

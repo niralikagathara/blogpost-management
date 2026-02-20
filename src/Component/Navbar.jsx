@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css"
 import { MdAnalytics } from "react-icons/md";
 import { useTheme } from "../context/ThemeContext";
+import { FaRegStar } from "react-icons/fa";
 
 
 export default function Navbar() {
@@ -36,6 +37,10 @@ export default function Navbar() {
           
           <NavLink to="/charts" className="nav-item">
             <MdAnalytics className="nav-icon" />Analystic
+          </NavLink>
+
+           <NavLink to="/favorites" className="nav-item">
+            <FaRegStar className="nav-icon" />Favorites
           </NavLink>
 
         </div>

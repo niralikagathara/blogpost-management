@@ -5,6 +5,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
@@ -30,6 +31,21 @@ const Dashboard = () => {
   const handleReadMore = (id) => {
     navigate(`/postdetails/${id}`);
   };
+
+  const toggleFavorite=(e,taskId)=>{
+    let newFavorites;
+    if(favorites.includes(taskId)){
+        newFavorites=favorites.filter(id=>id !== taskId);
+        toast.info("Removed from  favorites");
+    }else{
+      newFavorites=[...favorites,taskId];
+      toast.success("added to Favorites!");
+    }
+    setFavorites(newFavorites);
+    localStorage.setItem('')
+  }
+
+
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
@@ -101,6 +117,13 @@ const Dashboard = () => {
                       alt="post"
                       className="post-card-image"
                     />
+
+                    <button 
+                        className={`favorite-btn ${Favorites.includes(post.id)? 'active ':''}`}
+                                onClick={(e)=> toggleFavorite(e,taskId)}
+                    >
+                                <FaStar size={22} color="#ffffff"/>
+                        </button>
                     <div className="post-actions">
                       <button
                         className="action-btn edit-btn"
